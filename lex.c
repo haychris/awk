@@ -76,6 +76,7 @@ Keyword keywords[] ={	/* keep sorted: binary searched */
 	{ "print",	PRINT,		PRINT },
 	{ "printf",	PRINTF,		PRINTF },
 	{ "rand",	FRAND,		BLTIN },
+	{ "repeat",     REPEAT,         REPEAT },
 	{ "return",	RETURN,		RETURN },
 	{ "sin",	FSIN,		BLTIN },
 	{ "split",	SPLIT,		SPLIT },
@@ -87,6 +88,7 @@ Keyword keywords[] ={	/* keep sorted: binary searched */
 	{ "system",	FSYSTEM,	BLTIN },
 	{ "tolower",	FTOLOWER,	BLTIN },
 	{ "toupper",	FTOUPPER,	BLTIN },
+	{ "until",      UNTIL,          UNTIL },
 	{ "while",	WHILE,		WHILE },
 };
 

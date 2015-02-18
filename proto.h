@@ -178,6 +178,7 @@ extern	Cell	*condexpr(Node **, int);
 extern	Cell	*ifstat(Node **, int);
 extern	Cell	*whilestat(Node **, int);
 extern	Cell	*dostat(Node **, int);
+extern	Cell	*repeatstat(Node **, int);
 extern	Cell	*forstat(Node **, int);
 extern	Cell	*instat(Node **, int);
 extern	Cell	*bltin(Node **, int);

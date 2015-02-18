@@ -52,7 +52,7 @@ Node	*arglist = 0;	/* list of args for current function */
 %token	<i>	MATCH NOTMATCH MATCHOP
 %token	<i>	FINAL DOT ALL CCL NCCL CHAR OR STAR QUEST PLUS EMPTYRE
 %token	<i>	AND BOR APPEND EQ GE GT LE LT NE IN
-%token	<i>	ARG BLTIN BREAK CLOSE CONTINUE DELETE DO EXIT FOR FUNC 
+%token	<i>	ARG BLTIN BREAK CLOSE CONTINUE DELETE DO EXIT FOR FUNC REPEAT
 %token	<i>	SUB GSUB IF INDEX LSUBSTR MATCHFCN NEXT NEXTFILE
 %token	<i>	ADD MINUS MULT DIVIDE MOD
 %token	<i>	ASSIGN ASGNOP ADDEQ SUBEQ MULTEQ DIVEQ MODEQ POWEQ
@@ -67,8 +67,8 @@ Node	*arglist = 0;	/* list of args for current function */
 %type	<s>	reg_expr
 %type	<p>	simple_stmt opt_simple_stmt stmt stmtlist
 %type	<p>	var varname funcname varlist
-%type	<p>	for if else while
-%type	<i>	do st
+%type	<p>	for if else while until
+%type	<i>	do st repeat
 %type	<i>	pst opt_pst lbrace rbrace rparen comma nl opt_nl and bor
 %type	<i>	subop print
 
@@ -79,10 +79,10 @@ Node	*arglist = 0;	/* list of args for current function */
 %left	AND
 %left	GETLINE
 %nonassoc APPEND EQ GE GT LE LT NE MATCHOP IN '|'
-%left	ARG BLTIN BREAK CALL CLOSE CONTINUE DELETE DO EXIT FOR FUNC 
+%left	ARG BLTIN BREAK CALL CLOSE CONTINUE DELETE DO EXIT FOR FUNC REPEAT
 %left	GSUB IF INDEX LSUBSTR MATCHFCN NEXT NUMBER
 %left	PRINT PRINTF RETURN SPLIT SPRINTF STRING SUB SUBSTR
-%left	REGEXPR VAR VARNF IVAR WHILE '('
+%left	REGEXPR VAR VARNF IVAR WHILE UNTIL '('
 %left	CAT
 %left	'+' '-'
 %left	'*' '/' '%'
@@ -115,7 +115,9 @@ comma:
 do:
 	  DO | do NL
 	;
-
+repeat: 
+          REPEAT | repeat NL
+        ;
 else:
 	  ELSE | else NL
 	;
@@ -320,7 +322,9 @@ stmt:
 				  $$ = stat1(CONTINUE, NIL); }
 	| do {inloop++;} stmt {--inloop;} WHILE '(' pattern ')' st
 		{ $$ = stat2(DO, $3, notnull($7)); }
-	| EXIT pattern st	{ $$ = stat1(EXIT, $2); }
+        | repeat {inloop++;} stmt {--inloop;} UNTIL '(' pattern ')' st
+		{ $$ = stat2(REPEAT, $3, notnull($7)); }
+        | EXIT pattern st	{ $$ = stat1(EXIT, $2); }
 	| EXIT st		{ $$ = stat1(EXIT, NIL); }
 	| for
 	| if stmt else stmt	{ $$ = stat3(IF, $1, $2, $4); }

@@ -91,6 +91,7 @@ struct xx
 	{ WHILE, "whilestat", "while(" },
 	{ FOR, "forstat", "for(" },
 	{ DO, "dostat", "do" },
+	{ REPEAT, "repeatstat", "repeat" },
 	{ IN, "instat", "instat" },
 	{ NEXT, "jump", "next" },
 	{ NEXTFILE, "jump", "nextfile" },

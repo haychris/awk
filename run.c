@@ -1414,6 +1414,24 @@ Cell *dostat(Node **a, int n)	/* do a[0]; while(a[1]) */
 	}
 }
 
+Cell *repeatstat(Node **a, int n)	/* repeat a[0]; until(a[1]) */
+{
+	Cell *x;
+
+	for (;;) {
+		x = execute(a[0]);
+		if (isbreak(x))
+			return True;
+		if (isnext(x) || isexit(x) || isret(x))
+			return(x);
+		tempfree(x);
+		x = execute(a[1]);
+		if (istrue(x))
+			return(x);
+		tempfree(x);
+	}
+}
+
 Cell *forstat(Node **a, int n)	/* for (a[0]; a[1]; a[2]) a[3] */
 {
 	Cell *x;
