@@ -1490,6 +1490,8 @@ Cell *bltin(Node **a, int n)	/* builtin functions. a[0] is type, a[1] is arg lis
 		else
 			u = strlen(getsval(x));
 		break;
+	case HTOI:
+	        u = errcheck(strtol(getsval(x), NULL, 0), "htoi"); break;
 	case FLOG:
 		u = errcheck(log(getfval(x)), "log"); break;
 	case FINT:
